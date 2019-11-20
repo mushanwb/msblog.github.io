@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="laravel,lnmp," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="服务器测压先测试一下用nginx作为http服务器的压力 安装ab（apache banchmark)工具 Apache Benchmark(简称ab) 是Apache安装包中自带的压力测试工具 ，简单易用 ，我使用的是nginx，所以需要装一下 1yum -y install httpd-tools  ab参数详情ab测压命令有很多参数，以下图为例，比较详细  ab使用模拟并发请求100次，总共">
+<meta name="keywords" content="laravel,lnmp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用swoole取代nginx加载laravel">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;18&#x2F;laravel-%E4%BD%BF%E7%94%A8swoole%E5%8F%96%E4%BB%A3nginx&#x2F;index.html">
+<meta property="og:site_name" content="MuShan Blog">
+<meta property="og:description" content="服务器测压先测试一下用nginx作为http服务器的压力 安装ab（apache banchmark)工具 Apache Benchmark(简称ab) 是Apache安装包中自带的压力测试工具 ，简单易用 ，我使用的是nginx，所以需要装一下 1yum -y install httpd-tools  ab参数详情ab测压命令有很多参数，以下图为例，比较详细  ab使用模拟并发请求100次，总共">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https:&#x2F;&#x2F;hmwztb.top&#x2F;image&#x2F;blog&#x2F;blog-image8.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;hmwztb.top&#x2F;image&#x2F;blog&#x2F;blog-image9.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;hmwztb.top&#x2F;image&#x2F;blog&#x2F;blog-image10.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;hmwztb.top&#x2F;image&#x2F;blog&#x2F;blog-image11.png">
+<meta property="og:updated_time" content="2019-11-20T02:24:43.257Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;hmwztb.top&#x2F;image&#x2F;blog&#x2F;blog-image8.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/11/18/laravel-使用swoole取代nginx/"/>
+
+
+
+
+
+  <title>使用swoole取代nginx加载laravel | MuShan Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">MuShan Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/18/laravel-%E4%BD%BF%E7%94%A8swoole%E5%8F%96%E4%BB%A3nginx/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="慕山">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MuShan Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">使用swoole取代nginx加载laravel</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-11-18T18:35:24+08:00">
+                2019-11-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/php/" itemprop="url" rel="index">
+                    <span itemprop="name">php</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="服务器测压"><a href="#服务器测压" class="headerlink" title="服务器测压"></a><strong>服务器测压</strong></h3><p>先测试一下用nginx作为http服务器的压力</p>
+<h4 id="安装ab（apache-banchmark-工具"><a href="#安装ab（apache-banchmark-工具" class="headerlink" title="安装ab（apache banchmark)工具"></a><strong>安装ab（apache banchmark)工具</strong></h4><p> Apache Benchmark(简称ab) 是Apache安装包中自带的压力测试工具 ，简单易用 ，我使用的是nginx，所以需要装一下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install httpd-tools</span><br></pre></td></tr></table></figure>
+
+<h4 id="ab参数详情"><a href="#ab参数详情" class="headerlink" title="ab参数详情"></a><strong>ab参数详情</strong></h4><p>ab测压命令有很多参数，以下图为例，比较详细</p>
+<p><img src="https://hmwztb.top/image/blog/blog-image8.png" alt="img"></p>
+<h4 id="ab使用"><a href="#ab使用" class="headerlink" title="ab使用"></a><strong>ab使用</strong></h4><p>模拟并发请求100次，总共请求1000次</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ab -c 100 -n 1000 http://192.168.2.81/api/pressure（待测试的网站，建议完整路径）</span><br></pre></td></tr></table></figure>
+
+<h4 id="ab测试结果参数详情"><a href="#ab测试结果参数详情" class="headerlink" title="ab测试结果参数详情"></a><strong>ab测试结果参数详情</strong></h4><p>重要的看Requests per second 这个参数，每秒请求数，越高说明越快</p>
+<p><img src="https://hmwztb.top/image/blog/blog-image9.png" alt="img"></p>
+<h4 id="示例"><a href="#示例" class="headerlink" title="示例"></a><strong>示例</strong></h4><p><img src="https://hmwztb.top/image/blog/blog-image10.png" alt="image-20191118185646593"></p>
+<p>使用正常nginx作为http服务器，每秒请求数为9.41，我用的是虚拟机，比较低，当然这个跟很多额外因数有关，比如带宽，cpu大小，内存等等，但是我们将nginx替换为swoole不违反单一变量原则</p>
+<h3 id="使用swoole"><a href="#使用swoole" class="headerlink" title="使用swoole"></a><strong>使用swoole</strong></h3><h4 id="选择使用swoole包"><a href="#选择使用swoole包" class="headerlink" title="选择使用swoole包"></a><strong>选择使用swoole包</strong></h4><p>使用swoole提升laravel的性能，在先有的轮子中，下面的轮子还是非常不错的，可以自行选择</p>
+<ul>
+<li>swooletw/laravel-swoole </li>
+<li>garveen/laravoole </li>
+</ul>
+<p>我选择使用<code>swooletw/laravel-swoole</code></p>
+<p>使用<code>composer</code>安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">composer require swooletw/laravel-swoole</span><br></pre></td></tr></table></figure>
+
+<h4 id="配置swoole"><a href="#配置swoole" class="headerlink" title="配置swoole"></a><strong>配置swoole</strong></h4><p>在laravel项目中添加服务，在<code>config/app.php</code>文件中的providers数组中加上</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SwooleTW\Http\LaravelServiceProvider::class</span><br></pre></td></tr></table></figure>
+
+<p>将配置文件导出到 config 目录下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php artisan vendor:publish --provider=&quot;SwooleTW\Http\LaravelServiceProvider&quot;</span><br></pre></td></tr></table></figure>
+
+<p>可以去<code>config/swoole_http.php</code>中配置自己需要的信息，可以将参数放在<code>.env</code>文件中配置</p>
+<blockquote>
+<blockquote>
+<p>重要的参数我配置了以下几个：</p>
+<p>host：ip地址          我配置了我虚拟机的ip地址 192.168.2.81</p>
+<p>port：端口号          我配置了一个 81端口</p>
+<p>daemonize：守护进程            为 true 时，开启swoole:http后在后台运行</p>
+</blockquote>
+</blockquote>
+<h4 id="启动swoole"><a href="#启动swoole" class="headerlink" title="启动swoole"></a><strong>启动swoole</strong></h4><p>使用artisan命令启动swoole_http_server</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php artisan swoole:http start</span><br></pre></td></tr></table></figure>
+
+<p>对应的操作有： start|stop|restart|reload      依次为启动/停止/重启/重载</p>
+<p> <strong>注意</strong>：该拓展是不支持热启动的，所以每次有代码更新都要重启服务 <code>php artisan swoole:http restart</code>。当然你也可以在linux上写一个脚本，让 git pull 代码后自动重启服务。 </p>
+<p>现在就可以去访问配置文件的host和port了：192.168.2.81:81/api/pressure        (后面为我写的接口)</p>
+<p>如果没有问题则配置成功了，可以试一下压力测试，非常夸张</p>
+<h3 id="先说下遇到的问题"><a href="#先说下遇到的问题" class="headerlink" title="先说下遇到的问题"></a><strong>先说下遇到的问题</strong></h3><h4 id="问题一"><a href="#问题一" class="headerlink" title="问题一"></a><strong>问题一</strong></h4><p>执行<code>php artisan swoole:http start</code> 时报错：</p>
+<blockquote>
+<blockquote>
+<p>PHP Fatal error:  Uncaught Error: Call to undefined method Illuminate\Events\Dispatcher::fire() in /home/wwwroot/laravel_point/vendor/swooletw/laravel-swoole/src/Server/Manager.php:123</p>
+</blockquote>
+</blockquote>
+<p>这是因为该版本的<code>swooletw/laravel-swoole</code>包里面有个函数在laravel5.8被剔除了，如果是5.8以下应该没什么问题。我的laravel版本为5.8，所以需要去包文件中将函数替换掉。</p>
+<p>根据报错提示，进去报错文件</p>
+<p><code>cd vendor/swooletw/laravel-swoole/src/Server/Manager.php</code></p>
+<p>搜索函数<code>fire</code>，将其全部替换为<code>dispatch</code>即可</p>
+<p>再次访问：192.168.2.81:81/api/pressure</p>
+<h4 id="问题二"><a href="#问题二" class="headerlink" title="问题二"></a><strong>问题二</strong></h4><p>访问网址时出现  <code>无法访问此网站</code> ，这一般是设置的端口没有添加到防火墙（以下命令针对CentOS7以上版本）</p>
+<p>查看防火墙状态：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl status firewalld</span><br></pre></td></tr></table></figure>
+
+<p>Active 为  inactive (dead)，则表示防火墙关闭了，</p>
+<p>Active 为  active (running)，则表示防火墙开器。</p>
+<p>如果防火墙关闭了，我们先开启防火墙</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl start firewalld</span><br></pre></td></tr></table></figure>
+
+<p>开放81端口</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd --zone=public --add-port=81/tcp --permanent</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<blockquote>
+<p>命令含义：</p>
+<p>–zone #作用域</p>
+<p>–add-port=80/tcp #添加端口，格式为：端口/通讯协议</p>
+<p>–permanent #永久生效，没有此参数重启后失效</p>
+<p>如果想开放其他端口，则在上面命令里把81改为设置的端口号</p>
+</blockquote>
+</blockquote>
+<p>重启防火墙</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd --reload</span><br></pre></td></tr></table></figure>
+
+<p>现在就可以访问81端口了：192.168.2.81:81/api/pressure</p>
+<h3 id="再次测压"><a href="#再次测压" class="headerlink" title="再次测压"></a><strong>再次测压</strong></h3><p>我们在项目里开启swoole服务（如果已经关了）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php artisan swoole:http start</span><br></pre></td></tr></table></figure>
+
+<p>使用swoole时：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ab -c 100 -n 1000 http://192.168.2.81:81/api/pressure   （注意带上端口）</span><br></pre></td></tr></table></figure>
+
+<p>可以看到请求飞速：</p>
+<p><img src="https://hmwztb.top/image/blog/blog-image11.png" alt="image-20191119184535063"></p>
+<p>如果不带端口，则没有使用swoole服务，走原来的</p>
+<p>也可以在测一下原来的请求，明显感觉慢很多。</p>
+<h3 id="更改nginx配置"><a href="#更改nginx配置" class="headerlink" title="更改nginx配置"></a><strong>更改nginx配置</strong></h3><p>对比一下nginx配置文件里的server</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    server_name your.domain.com;</span><br><span class="line">    root /path/to/laravel/public;</span><br><span class="line">    index index.php;</span><br><span class="line">	</span><br><span class="line">	# 下面为添加的配置（或者需要修改的配置)</span><br><span class="line">	#</span><br><span class="line">    location = /index.php &#123;</span><br><span class="line">    	# 在你的项目public目录下确保没有not_exists文件</span><br><span class="line">    	</span><br><span class="line">        try_files /not_exists @swoole;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    location / &#123;</span><br><span class="line">        try_files $uri $uri/ @swoole;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    location @swoole &#123;</span><br><span class="line">        set $suffix &quot;&quot;;</span><br><span class="line"></span><br><span class="line">        if ($uri = /index.php) &#123;</span><br><span class="line">            set $suffix &quot;/&quot;;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        proxy_set_header Host $host;</span><br><span class="line">        proxy_set_header SERVER_PORT $server_port;</span><br><span class="line">        proxy_set_header REMOTE_ADDR $remote_addr;</span><br><span class="line">        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line"></span><br><span class="line">        # 这里将请求代理到本地的81端口，（我将swoole配置的host改为127.0.0.1）</span><br><span class="line">        </span><br><span class="line">        proxy_pass http://127.0.0.1:81$suffix;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>配置好后，重启nginx，如果修改了项目文件，则需要重启swoole服务（上面有说，不支持热启动）</p>
+<p>然后就可以正常访问网站了： <code>http://192.168.2.81/api/pressure</code>  （这里就不需要在带上端口了，因为在nginx配置里已经使用代理，代理到本地的81端口）</p>
+<p><strong>注意</strong>：如果已经配置好了使用swoole，那swoole服务在项目里就要是开启状态的，不然接口会出现500错误。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/laravel/" rel="tag"># laravel</a>
+          
+            <a href="/tags/lnmp/" rel="tag"># lnmp</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/11/14/swoole-%E7%BC%96%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85/" rel="next" title="swoole编译安装">
+                <i class="fa fa-chevron-left"></i> swoole编译安装
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">慕山</p>
+              <p class="site-description motion-element" itemprop="description">好运不会眷顾傻瓜</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#服务器测压"><span class="nav-number">1.</span> <span class="nav-text">服务器测压</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装ab（apache-banchmark-工具"><span class="nav-number">1.1.</span> <span class="nav-text">安装ab（apache banchmark)工具</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ab参数详情"><span class="nav-number">1.2.</span> <span class="nav-text">ab参数详情</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ab使用"><span class="nav-number">1.3.</span> <span class="nav-text">ab使用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ab测试结果参数详情"><span class="nav-number">1.4.</span> <span class="nav-text">ab测试结果参数详情</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#示例"><span class="nav-number">1.5.</span> <span class="nav-text">示例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用swoole"><span class="nav-number">2.</span> <span class="nav-text">使用swoole</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#选择使用swoole包"><span class="nav-number">2.1.</span> <span class="nav-text">选择使用swoole包</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置swoole"><span class="nav-number">2.2.</span> <span class="nav-text">配置swoole</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#启动swoole"><span class="nav-number">2.3.</span> <span class="nav-text">启动swoole</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#先说下遇到的问题"><span class="nav-number">3.</span> <span class="nav-text">先说下遇到的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#问题一"><span class="nav-number">3.1.</span> <span class="nav-text">问题一</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#问题二"><span class="nav-number">3.2.</span> <span class="nav-text">问题二</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#再次测压"><span class="nav-number">4.</span> <span class="nav-text">再次测压</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#更改nginx配置"><span class="nav-number">5.</span> <span class="nav-text">更改nginx配置</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">慕山</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
