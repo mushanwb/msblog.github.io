@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="laravel,lnmp," />
+  <meta name="keywords" content="mysql," />
 
 
 
@@ -79,18 +79,16 @@
 
 
 
-<meta name="description" content="下载swoole进入swoole官网：http:&#x2F;&#x2F;pecl.php.net&#x2F;package&#x2F;swoole  复制最新版本的swoole链接，然后下载 1wget http:&#x2F;&#x2F;pecl.php.net&#x2F;get&#x2F;swoole-4.4.12.tgz  解压安装包1tar xvf swoole-4.4.12.tgz  编译swoole进入解压完的swoole文件夹 1cd swoole-4.4.12">
-<meta name="keywords" content="laravel,lnmp">
+<meta name="description" content="介绍为什么要主从复制 做数据的热备  如果主数据库宕机，可以快速将业务系统切换到从数据库上，可避免数据丢失。  业务量越来越大，I&#x2F;O访问频率过高，单机无法满足，此时做多库的存储，降低磁盘I&#x2F;O访问的频率，提高单个机器的I&#x2F;O性能。如果对数据库的读和写都在同一个数据库服务器中操作，业务系统性能会降低。  在业务复杂的系统中，有这么一个情景，有一句sql语句需要锁表，导致暂时不能使用读的服务，那么就">
+<meta name="keywords" content="mysql">
 <meta property="og:type" content="article">
-<meta property="og:title" content="swoole编译安装">
-<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;14&#x2F;swoole-%E7%BC%96%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85&#x2F;index.html">
+<meta property="og:title" content="mysql主从复制">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;21&#x2F;mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6&#x2F;index.html">
 <meta property="og:site_name" content="MuShan Blog">
-<meta property="og:description" content="下载swoole进入swoole官网：http:&#x2F;&#x2F;pecl.php.net&#x2F;package&#x2F;swoole  复制最新版本的swoole链接，然后下载 1wget http:&#x2F;&#x2F;pecl.php.net&#x2F;get&#x2F;swoole-4.4.12.tgz  解压安装包1tar xvf swoole-4.4.12.tgz  编译swoole进入解压完的swoole文件夹 1cd swoole-4.4.12">
+<meta property="og:description" content="介绍为什么要主从复制 做数据的热备  如果主数据库宕机，可以快速将业务系统切换到从数据库上，可避免数据丢失。  业务量越来越大，I&#x2F;O访问频率过高，单机无法满足，此时做多库的存储，降低磁盘I&#x2F;O访问的频率，提高单个机器的I&#x2F;O性能。如果对数据库的读和写都在同一个数据库服务器中操作，业务系统性能会降低。  在业务复杂的系统中，有这么一个情景，有一句sql语句需要锁表，导致暂时不能使用读的服务，那么就">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="https:&#x2F;&#x2F;hmwztb.top&#x2F;image&#x2F;blog&#x2F;blog-image7.png">
-<meta property="og:updated_time" content="2019-11-18T10:30:23.403Z">
+<meta property="og:updated_time" content="2019-11-23T04:05:35.292Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;hmwztb.top&#x2F;image&#x2F;blog&#x2F;blog-image7.png">
 
 
 
@@ -120,13 +118,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/11/14/swoole-编编译安装/"/>
+  <link rel="canonical" href="http://yoursite.com/2019/11/21/mysql主从复制/"/>
 
 
 
 
 
-  <title>swoole编译安装 | MuShan Blog</title>
+  <title>mysql主从复制 | MuShan Blog</title>
   
 
 
@@ -253,7 +251,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/14/swoole-%E7%BC%96%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/21/mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="慕山">
@@ -270,7 +268,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">swoole编译安装</h1>
+          <h1 class="post-title" itemprop="name headline">mysql主从复制</h1>
         
 
         <div class="post-meta">
@@ -282,8 +280,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-11-14T10:44:46+08:00">
-                2019-11-14
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-11-21T17:58:24+08:00">
+                2019-11-21
               </time>
             
 
@@ -342,36 +340,50 @@
       
 
       
-        <h4 id="下载swoole"><a href="#下载swoole" class="headerlink" title="下载swoole"></a><strong>下载swoole</strong></h4><p>进入swoole官网：<a href="http://pecl.php.net/package/swoole" target="_blank" rel="noopener">http://pecl.php.net/package/swoole</a> </p>
-<p>复制最新版本的swoole链接，然后下载</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http://pecl.php.net/get/swoole-4.4.12.tgz</span><br></pre></td></tr></table></figure>
+        <h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a><strong>介绍</strong></h3><h4 id="为什么要主从复制"><a href="#为什么要主从复制" class="headerlink" title="为什么要主从复制"></a><strong>为什么要主从复制</strong></h4><ul>
+<li><p>做数据的热备</p>
+</li>
+<li><p>如果主数据库宕机，可以快速将业务系统切换到从数据库上，可避免数据丢失。</p>
+</li>
+<li><p>业务量越来越大，I/O访问频率过高，单机无法满足，此时做多库的存储，降低磁盘I/O访问的频率，提高单个机器的I/O性能。如果对数据库的读和写都在同一个数据库服务器中操作，业务系统性能会降低。</p>
+</li>
+<li><p>在业务复杂的系统中，有这么一个情景，有一句sql语句需要锁表，导致暂时不能使用读的服务，那么就很影响运行中的业务，使用主从复制，让主库负责写，从库负责读，这样，即使主库出现了锁表的情景，通过读从库也可以保证业务的正常运作。通过做主从复制（读写分离）来减轻主数据库的负载。</p>
+</li>
+</ul>
+<h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a><strong>原理</strong></h4><ul>
+<li><p>一：主库db的更新事件(update、insert、delete)被写到binlog</p>
+</li>
+<li><p>二：从库发起连接，连接到主库</p>
+</li>
+<li><p>三：此时主库创建一个binlog dump thread，把binlog的内容发送到从库</p>
+</li>
+<li><p>四：从库启动之后，创建一个I/O线程，读取主库传过来的binlog内容并写入到relay log</p>
+</li>
+<li><p>五：还会创建一个SQL线程，从relay log里面读取内容，从<strong>Exec_Master_Log_Pos</strong>位置开始执行读取到的更新事件，将更新内容写入到slave的db</p>
+</li>
+</ul>
+<h3 id="主从复制"><a href="#主从复制" class="headerlink" title="主从复制"></a><strong>主从复制</strong></h3><h4 id="实验环境"><a href="#实验环境" class="headerlink" title="实验环境"></a><strong>实验环境</strong></h4><blockquote>
+<blockquote>
+<ul>
+<li>两台服务器做配置测试：主数据库：192.168.2.81，从数据库：192.168.2.82</li>
+<li>分别安装有 mysql。最好版本一样（我的不一样）</li>
+<li>机子都 ping 得通</li>
+</ul>
+</blockquote>
+</blockquote>
+<h4 id="配置主库master（都在主服务里操作）"><a href="#配置主库master（都在主服务里操作）" class="headerlink" title="配置主库master（都在主服务里操作）"></a><strong>配置主库master（都在主服务里操作）</strong></h4><p> 为了安全起见，在主库里创建一个新用户，用于从库使用这个用户连接主库。</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 连接mysql</span><br><span class="line">mysql -uroot -p</span><br><span class="line"></span><br><span class="line"># 创建用户</span><br><span class="line">create user &apos;repl&apos;@&apos;%&apos; identified by &apos;repl&apos;;</span><br><span class="line"></span><br><span class="line"># 授权，只授予复制和客户端访问权限</span><br><span class="line">grant replication slave,replication client on *.* to &apos;repl&apos;@&apos;%&apos; identified by &apos;repl&apos;;</span><br></pre></td></tr></table></figure>
 
-<h4 id="解压安装包"><a href="#解压安装包" class="headerlink" title="解压安装包"></a><strong>解压安装包</strong></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar xvf swoole-4.4.12.tgz</span><br></pre></td></tr></table></figure>
+<h4 id="修改主库配置"><a href="#修改主库配置" class="headerlink" title="修改主库配置"></a><strong>修改主库配置</strong></h4><p>在 <code>/etc/my.cnf</code> 数据库配置文件中的 [mysqld] 下添加：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">log-bin=mysql-bin</span><br><span class="line">log-bin-index = mysql-bin.index</span><br><span class="line">binlog_format = mixed</span><br><span class="line">server-id = 175</span><br><span class="line">sync-binlog = 1</span><br><span class="line">character-set-server = utf8</span><br></pre></td></tr></table></figure>
 
-<h4 id="编译swoole"><a href="#编译swoole" class="headerlink" title="编译swoole"></a><strong>编译swoole</strong></h4><p>进入解压完的swoole文件夹</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd swoole-4.4.12</span><br></pre></td></tr></table></figure>
+<p>保存文件并重启mysql</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service mysql restart</span><br></pre></td></tr></table></figure>
 
-<p>在当前目录下运行php的配置文件<code>phpize</code>路径进行编译</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/php/bin/phpize</span><br></pre></td></tr></table></figure>
+<p>配置说明：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">log-bin：设置二进制日志文件的基本名；</span><br><span class="line">log-bin-index：设置二进制日志索引文件名；</span><br><span class="line">binlog_format：控制二进制日志格式，进而控制了复制类型，三个可选值</span><br><span class="line">        -STATEMENT：语句复制</span><br><span class="line">        -ROW：行复制</span><br><span class="line">        -MIXED：混和复制，默认选项</span><br><span class="line">server-id：服务器设置唯一ID，默认为1，推荐取IP最后部分；</span><br><span class="line">sync-binlog：默认为0，为保证不会丢失数据，需设置为1，用于强制每次提交事务时，同步二进制日志到磁盘上。</span><br></pre></td></tr></table></figure>
 
-<p>编译文件到php-config中</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./configure --with-php-config=/usr/local/php/bin/php-config</span><br></pre></td></tr></table></figure>
-
-<p>查看上一步执行是否执行成功，成功返回0</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo $?</span><br></pre></td></tr></table></figure>
-
-<p>继续执行</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure>
-
-<h4 id="在php中添加扩展"><a href="#在php中添加扩展" class="headerlink" title="在php中添加扩展"></a><strong>在php中添加扩展</strong></h4><p>进入php的配置文件<code>php.ini</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /usr/local/php/etc/php.ini</span><br></pre></td></tr></table></figure>
-
-<p>记得编译完成后复制这个路径</p>
-<p><img src="https://hmwztb.top/image/blog/blog-image7.png" alt="img"></p>
-<p>在php配置文件中<code>php.ini</code>添加扩展，搜索extension参数，在扩展下面增加（其实在哪加都可以，只是把所有扩展都放在一起比较好），记住复制的路径后面还要加上 <code>swoole.so</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">extension = /usr/local/php/lib/php/extensions/no-debug-non-zts-20160303/swoole.so</span><br></pre></td></tr></table></figure>
-
-<h4 id="查看php扩展"><a href="#查看php扩展" class="headerlink" title="查看php扩展"></a><strong>查看php扩展</strong></h4><p>安装完成，可以使用<code>php -m</code>命令查看swoole扩展是否安装好，也可以通过phpinfo查看swoole扩展</p>
+<p>如果需要将主库之前的数据也同步到从库时，则需要备份主库数据，到时候需要</p>
 
       
     </div>
@@ -389,9 +401,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/laravel/" rel="tag"># laravel</a>
-          
-            <a href="/tags/lnmp/" rel="tag"># lnmp</a>
+            <a href="/tags/mysql/" rel="tag"># mysql</a>
           
         </div>
       
@@ -404,8 +414,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/10/15/lnmpa%E6%90%AD%E5%BB%BA%E5%92%8Claravel%E9%83%A8%E7%BD%B2/" rel="next" title="lnmpa-用git部署laravel">
-                <i class="fa fa-chevron-left"></i> lnmpa-用git部署laravel
+              <a href="/2019/11/20/php%E5%AE%9E%E7%8E%B0redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/" rel="next" title="php实现redis分布式锁">
+                <i class="fa fa-chevron-left"></i> php实现redis分布式锁
               </a>
             
           </div>
@@ -413,10 +423,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/11/18/laravel-%E4%BD%BF%E7%94%A8swoole%E5%8F%96%E4%BB%A3nginx/" rel="prev" title="使用swoole取代nginx加载laravel">
-                使用swoole取代nginx加载laravel <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -548,7 +554,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#下载swoole"><span class="nav-number">1.</span> <span class="nav-text">下载swoole</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解压安装包"><span class="nav-number">2.</span> <span class="nav-text">解压安装包</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#编译swoole"><span class="nav-number">3.</span> <span class="nav-text">编译swoole</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在php中添加扩展"><span class="nav-number">4.</span> <span class="nav-text">在php中添加扩展</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查看php扩展"><span class="nav-number">5.</span> <span class="nav-text">查看php扩展</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#介绍"><span class="nav-number">1.</span> <span class="nav-text">介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#为什么要主从复制"><span class="nav-number">1.1.</span> <span class="nav-text">为什么要主从复制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#原理"><span class="nav-number">1.2.</span> <span class="nav-text">原理</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主从复制"><span class="nav-number">2.</span> <span class="nav-text">主从复制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#实验环境"><span class="nav-number">2.1.</span> <span class="nav-text">实验环境</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置主库master（都在主服务里操作）"><span class="nav-number">2.2.</span> <span class="nav-text">配置主库master（都在主服务里操作）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改主库配置"><span class="nav-number">2.3.</span> <span class="nav-text">修改主库配置</span></a></li></ol></li></ol></div>
             
 
           </div>
