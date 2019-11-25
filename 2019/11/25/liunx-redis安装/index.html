@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="redis," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="下载编译安装redis进入redis的官网，查看和下载最新版本的redis，官网下面也会给出linux上下载和安装的命令 下载redis1wget http:&#x2F;&#x2F;download.redis.io&#x2F;releases&#x2F;redis-5.0.7.tar.gz  解压redis包1tar xzf redis-5.0.7.tar.gz  编译安装复制redis解压后的文件到&#x2F;usr&#x2F;local文件中，一般安">
+<meta name="keywords" content="redis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="liunx redis安装">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;25&#x2F;liunx-redis%E5%AE%89%E8%A3%85&#x2F;index.html">
+<meta property="og:site_name" content="MuShan Blog">
+<meta property="og:description" content="下载编译安装redis进入redis的官网，查看和下载最新版本的redis，官网下面也会给出linux上下载和安装的命令 下载redis1wget http:&#x2F;&#x2F;download.redis.io&#x2F;releases&#x2F;redis-5.0.7.tar.gz  解压redis包1tar xzf redis-5.0.7.tar.gz  编译安装复制redis解压后的文件到&#x2F;usr&#x2F;local文件中，一般安">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https:&#x2F;&#x2F;hmwztb.top&#x2F;image&#x2F;blog&#x2F;blog-image12.png">
+<meta property="og:updated_time" content="2019-11-25T07:48:08.101Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;hmwztb.top&#x2F;image&#x2F;blog&#x2F;blog-image12.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/11/25/liunx-redis安装/"/>
+
+
+
+
+
+  <title>liunx redis安装 | MuShan Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">MuShan Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-github">
+          <a href="https://github.com/mushanwb" target="_blank" rel="section noopener">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            github
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/25/liunx-redis%E5%AE%89%E8%A3%85/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="慕山">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MuShan Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">liunx redis安装</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-11-25T11:15:34+08:00">
+                2019-11-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="下载编译安装redis"><a href="#下载编译安装redis" class="headerlink" title="下载编译安装redis"></a><strong>下载编译安装redis</strong></h3><p>进入<a href="https://redis.io/download" target="_blank" rel="noopener">redis的官网</a>，查看和下载最新版本的redis，官网下面也会给出linux上下载和安装的命令</p>
+<h4 id="下载redis"><a href="#下载redis" class="headerlink" title="下载redis"></a><strong>下载redis</strong></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http://download.redis.io/releases/redis-5.0.7.tar.gz</span><br></pre></td></tr></table></figure>
+
+<h4 id="解压redis包"><a href="#解压redis包" class="headerlink" title="解压redis包"></a>解压redis包</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar xzf redis-5.0.7.tar.gz</span><br></pre></td></tr></table></figure>
+
+<h4 id="编译安装"><a href="#编译安装" class="headerlink" title="编译安装"></a><strong>编译安装</strong></h4><p>复制redis解压后的文件到<code>/usr/local</code>文件中，一般安装的软件都放在<code>/usr/local</code>这个文件中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp -r ./redis-5.0.7/ /usr/local/redis-5.0.7/</span><br></pre></td></tr></table></figure>
+
+<p>进入redis文件，编译安装到指定目录，如<code>/usr/local/redis</code>，<code>/usr/local</code>文件下没有redis文件夹没有关系，编译安装完后会自动创建（ps：redis-5.0.7文件夹是redis包解压后的源码，redis文件夹为编译后的文件）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/redis-5.0.7</span><br><span class="line">make PREFIX=/usr/local/redis install</span><br></pre></td></tr></table></figure>
+
+<p>编译成功后，可以看到<code>/usr/local/redis</code>文件夹下有一个<code>bin</code>文件夹，拷贝redis的配置文件redis.conf到此目录下（redis.conf在redis源码里面)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/redis/bin		##进去redis编译后的文件夹中</span><br><span class="line">cp /usr/local/redis-5.0.7/redis.conf /usr/local/redis/bin/	##复制redis配置文件</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<blockquote>
+<p>redis编译后的文件详解</p>
+<p>redis-benchmark redis：性能测试工具</p>
+<p>redis-check-aof ：AOF文件修复工具</p>
+<p>redis-check-rdb： RDB文件修复工具</p>
+<p>redis-cli： redis命令行客户端</p>
+<p>redis.conf： redis配置文件</p>
+<p>redis-sentinal：redis集群管理工具</p>
+<p>redis-server： redis服务进程</p>
+</blockquote>
+</blockquote>
+<h4 id="启动redis"><a href="#启动redis" class="headerlink" title="启动redis"></a><strong>启动redis</strong></h4><p>在<code>/usr/local/redis/bin</code>文件中运行redis进程文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/redis/bin</span><br><span class="line">./redis-server</span><br></pre></td></tr></table></figure>
+
+<p>运行后可以看到如下画面，即redis已经安装成功</p>
+<p><img src="https://hmwztb.top/image/blog/blog-image12.png" alt="image"></p>
+<blockquote>
+<blockquote>
+<p>注意：这是redis以窗口模式（前端模式，一般不推荐）启动，此时进行会一直停留在redis服务界面，可以看到redis图标右边的参数</p>
+<p>port：为redis运行的端口号，默认都是6379，可以修改</p>
+<p>PID：为redis运行的进程id</p>
+</blockquote>
+</blockquote>
+<p>使用<code>ctrl + C</code>强行终止程序</p>
+<h3 id="redis配置"><a href="#redis配置" class="headerlink" title="redis配置"></a><strong>redis配置</strong></h3><h4 id="设置后台运行"><a href="#设置后台运行" class="headerlink" title="设置后台运行"></a><strong>设置后台运行</strong></h4><p>上面以redis窗口模式启动明显不符合需求，设置redis后台运行，进入redis编译后的（安装）目录中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/redis/bin/</span><br></pre></td></tr></table></figure>
+
+<p>修改我们从源码复制过来的 <code>redis.conf</code> 文件，将里面的参数 <code>daemonize</code> 由 <code>no</code> 改为 <code>yes</code> </p>
+<blockquote>
+<blockquote>
+<p>注意：修改完redis的配置文件后，每次运行redis都需要重新读取配置文件，即下面的运行方式</p>
+</blockquote>
+</blockquote>
+<p>在redis安装目录 <code>/usr/local/redis/bin/</code> 中启动redis</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">reids-server redis.conf				#(每次启动服务的时候都需要带上配置文件)</span><br></pre></td></tr></table></figure>
+
+<p>启动成功可以看到下面这些信息，即redis启动成功：</p>
+<blockquote>
+<blockquote>
+<p>2863:C 25 Nov 2019 12:07:04.996 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo<br>2863:C 25 Nov 2019 12:07:04.996 # Redis version=5.0.4, bits=64, commit=00000000, modified=0, pid=2863, just started<br>2863:C 25 Nov 2019 12:07:04.996 # Configuration loaded</p>
+</blockquote>
+</blockquote>
+<p>启动成功后，可以在此目录下运行 <code>redis-cli</code> ，可以进入redis命令客户端，进行redis操作</p>
+<blockquote>
+<blockquote>
+<p>注意：初始安装redis默认是没有密码的，我们可以通过下面的命令关闭redis</p>
+<p>cd /usr/local/redis/bin        ##进入redis的安装目录</p>
+<p>redis-cli shutdown            ##正确的方式停止redis</p>
+<p>pkill redis-server        ##强行终止redis， 强行终止redis进程可能会导致redis持久化数据丢失 </p>
+</blockquote>
+</blockquote>
+<h4 id="设置redis全局变量"><a href="#设置redis全局变量" class="headerlink" title="设置redis全局变量"></a><strong>设置redis全局变量</strong></h4><p>从上面的命令来看，每次运行redis或者关闭redis时，都需要进入到redis的安装目录中运行 <code>redis-cli</code> 文件，或者<code>redis-server</code>文件，当然也可以在任意目录中运行redis服务的绝对路径，但是这种还是很麻烦，所以将配置redis的全局变量，那样在任意文件中运行都可以运行<code>redis-cli</code>进入redis的命令端页面，或者运行<code>redis-server</code>启动redis服务</p>
+<p>打开配置文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/profile</span><br></pre></td></tr></table></figure>
+
+<p>在最后面添加以下内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export PATH=$PATH:/usr/local/redis/bin		##后面为redis安装目录的配置的绝对路径</span><br></pre></td></tr></table></figure>
+
+<p>使配置生效：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source /etc/profile</span><br></pre></td></tr></table></figure>
+
+<p>现在就可以直接使用 <code>redis-cli</code> 等命令了</p>
+<blockquote>
+<blockquote>
+<p>注意：如何关闭了redis服务，需要用命令启动的话，一定要带上redis的配置文件，但是redis的配置文件好像不在全局变量中，所以需要全路径，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;redis-server /usr/local/redis/bin/redis.conf</span><br></pre></td></tr></table></figure>
+
+<p>但是一般我们不会去关闭redis</p>
+</blockquote>
+</blockquote>
+<h3 id="设置redis开机自动启动"><a href="#设置redis开机自动启动" class="headerlink" title="设置redis开机自动启动"></a><strong>设置redis开机自动启动</strong></h3><p> 让 redis 服务开机运行，可以将其添加到<code>rc.local</code>文件，或者将其添加为系统的 service 服务。 </p>
+<h4 id="配置rc-local文件"><a href="#配置rc-local文件" class="headerlink" title="配置rc.local文件"></a><strong>配置rc.local文件</strong></h4><p> 本文使用<code>rc.local</code>的方式，在 <code>/etc/rc.local</code> 文件中添加：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">##前面是redis的server文件绝对路径，后面是redis配置文件的绝对路径</span><br><span class="line">/usr/local/redis/bin/redis-server /usr/local/redis/bin/redis.conf</span><br></pre></td></tr></table></figure>
+
+<h4 id="配置到service服务"><a href="#配置到service服务" class="headerlink" title="配置到service服务"></a><strong>配置到service服务</strong></h4><blockquote>
+<blockquote>
+<p>配置到系统服务的基本原理：<br>系统开机启动时会去加载<code>/etc/init.d/</code>文件目录下面的所有脚本文件，通常每个脚本文件会自定义实现程序的启动；若想将新的程序开机自启动，只需在该目录下添加一个自定义启动程序的脚本，然后设置相应启动规则即可。 </p>
+</blockquote>
+</blockquote>
+<p>如在这里我们在<code>/etc/init.d/</code>文件目录下（和<code>/etc/rc.d/init.d/</code>目录相同）创建一个<code>redis</code>脚本，</p>
+<p>比较方便的是：在 redis 源码目录下的<code>utils</code>目录下存在一个：<code>redis_init_script</code>可执行脚本，将其拷贝到<code>/etc/init.d</code> 下，并修改名字为<code>redis</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp /usr/local/redis-5.0.4/utils/redis_init_script /etc/init.d/redis</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<blockquote>
+<p>说明：redis 服务必须在运行级 2，3，4，5 下被启动或关闭，启动的优先级是 90，关闭的优先级是 10。 </p>
+</blockquote>
+</blockquote>
+<p>进入 <code>/ect/init.d/redis</code> 文件中， 修改该脚本中<code>CONF</code>的配置文件路径为本地自定义的配置文件路径 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CONF=&apos;/usr/local/redis/bin/redis.conf&apos;			##redis的配置文件绝对路径(当然也可以将配置文件复制到/etc/目录下，具体以哪个配置为主由自己定)</span><br></pre></td></tr></table></figure>
+
+<p> 配置脚本文件初始化及设置开机自启 ，授权脚本并设置开机自启</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chmod +x /etc/init.d/redis</span><br><span class="line">chkconfig redis on</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<blockquote>
+<p>chkconfig 常用命令 :</p>
+<p>chkconfig –list                #列出所有的系统服务</p>
+<p>chkconfig –add httpd            #增加httpd服务</p>
+<p>chkconfig –del httpd            #删除httpd服务</p>
+<p>chkconfig –level httpd 2345 on  #设置httpd在运行级别为2、3、4、5的情况下都是on（开启）的状态</p>
+<p>chkconfig –list                #列出系统所有的服务启动情况</p>
+<p>chkconfig –list mysqld          #列出mysqld服务设置情况</p>
+<p>chkconfig –level 35 mysqld on   #设定mysqld在等级3和5为开机运行服务，–level 35表示操作只在等级3和5执行，on表示启动，off表示关闭</p>
+<p>chkconfig mysqld on              #设定mysqld在各等级为on，“各等级”包括2、3、4、5等级</p>
+<p>等级0表示：表示关机</p>
+<p>等级1表示：单用户模式</p>
+<p>等级2表示：无网络连接的多用户命令行模式</p>
+<p>等级3表示：有网络连接的多用户命令行模式</p>
+<p>等级4表示：不可用</p>
+<p>等级5表示：带图形界面的多用户模式</p>
+<p>等级6表示：重新启动</p>
+</blockquote>
+</blockquote>
+<p>到此redis开机自启就已经配置好了，可以重启服务器测试一下，当然线上环境最好不要搞测试，也不要随意关闭redis</p>
+<h3 id="设置redis密码"><a href="#设置redis密码" class="headerlink" title="设置redis密码"></a><strong>设置redis密码</strong></h3><h4 id="配置redis密码"><a href="#配置redis密码" class="headerlink" title="配置redis密码"></a><strong>配置redis密码</strong></h4><p> redis 没有实现访问控制这个功能，但是它提供了一个轻量级的认证方式，可以编辑<code>redis.conf</code>配置来启用认证。在<code>redis.conf</code>配置文件中找到<code>requirepass</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /usr/local/redis/bin/redis.conf		##编辑redis的配置文件</span><br></pre></td></tr></table></figure>
+
+<p>找到<code>requirepass</code> 参数，将其注释符号去掉，并修改成自己的密码，如：<code>requirepass root123</code>即可。</p>
+<p>配置修改完毕之后，需要重新启动 redis 服务。</p>
+<blockquote>
+<p>注意：</p>
+<p>redis 查询速度极快，<code>auth</code>这种命令每秒能处理 10w 次以上，简单的 redis 的密码极容易被攻击者暴破，因此建议<code>requirepass</code>至少长度 20 位以上，为方便可使用一个特殊串 sha256sum 命令生成64位的无特殊字符串。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;$echo &quot;dfasdERQEWRQEW31341dfadsfadsf&quot; | sha256sum</span><br><span class="line">&gt;af970b3691a0774b2a5adae1375e14cd9e5db3591564f0eb789c2324cc02362f</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h4 id="登陆带密码的redis"><a href="#登陆带密码的redis" class="headerlink" title="登陆带密码的redis"></a><strong>登陆带密码的redis</strong></h4><p>可以在登陆的时候输入密码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-cli -h 127.0.0.1 -p 6379 -a root123</span><br></pre></td></tr></table></figure>
+
+<p>但是这种做法不推荐，容易在命令行暴露出redis的密码（其实和数据库连接一样）</p>
+<p>先登录后验证（正确做法)：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">redis-cli -p 6379	##如果是默认端口，可以省去端口，直接运行redis-cli即可</span><br><span class="line">redis 127.0.0.1:6379&gt; auth root123</span><br><span class="line">OK</span><br></pre></td></tr></table></figure>
+
+<p><code>AUTH</code>命令跟其他 redis 命令一样，是不加密的，因此不能完全阻止攻击者窃取密码。</p>
+<p>认证层的目标是提供多一层的轻量级保护。如果防火墙或者用来保护 redis 的系统防御外部攻击失败的话，外部用户如果没有通过密码认证还是无法访问 redis 服务</p>
+<h4 id="禁用或重命名危险命令（了解以下就可以了）"><a href="#禁用或重命名危险命令（了解以下就可以了）" class="headerlink" title="禁用或重命名危险命令（了解以下就可以了）"></a><strong>禁用或重命名危险命令（了解以下就可以了）</strong></h4><p> edis crackit漏洞就利用config/save两个命令完成攻击 。 因redis无用户权限限制，建议危险的命令，使用rename配置项进行禁用或重命名，这样外部不了解重命名规则攻击者，就不能执行这类命令。涉及到的命令： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FLUSHDB, FLUSHALL, KEYS, PEXPIRE, DEL, CONFIG, SHUTDOWN, BGREWRITEAOF, BGSAVE, SAVE, SPOP, SREM, RENAME, DEBUG, EVAL</span><br></pre></td></tr></table></figure>
+
+<p> 在<code>redis.conf</code>配置文件禁用<code>FLUSHDB</code>、<code>FLUSHALL</code>两个命令，或者重命名<code>CONFIG</code>、<code>SHUTDOWN</code>命令（添加一个特殊的后缀）。这样 redis 服务启动后，只能运行重命名之后的命令，不能执行原始的<code>CONFIG</code>命令 </p>
+<p>进入redis的配置文件，搜素<code>rename-command</code>参数，可以看到<code>rename-command</code>参数默认是被重名了，同时也被注释掉了，可以开启，同时添加禁用FLUSHDB和FLUSHALL命令</p>
+<blockquote>
+<blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&gt;# It is possible to change the name of dangerous commands in a shared</span><br><span class="line">&gt;# environment. For instance the CONFIG command may be renamed into something</span><br><span class="line">&gt;# hard to guess so that it will still be available for internal-use tools</span><br><span class="line">&gt;# but not available for general clients.</span><br><span class="line">&gt;#</span><br><span class="line">&gt;# Example:</span><br><span class="line">&gt;#</span><br><span class="line">&gt;# 重命名config命令：</span><br><span class="line">&gt;rename-command CONFIG b840fc02d524045429941cc15f59e41cb7be6c52	</span><br><span class="line">&gt;# 禁用FLUSHDB和FLUSHALL命令</span><br><span class="line">&gt;rename-command FLUSHDB &quot;&quot;</span><br><span class="line">&gt;rename-command FLUSHALL &quot;&quot;</span><br><span class="line">&gt;#</span><br><span class="line">&gt;# It is also possible to completely kill a command by renaming it into</span><br><span class="line">&gt;# an empty string:</span><br><span class="line">&gt;#</span><br><span class="line">&gt;# rename-command CONFIG &quot;&quot;</span><br><span class="line">&gt;#</span><br><span class="line">&gt;# Please note that changing the name of commands that are logged into the</span><br><span class="line">&gt;# AOF file or transmitted to replicas may cause problems.</span><br></pre></td></tr></table></figure>
+</blockquote>
+</blockquote>
+<p>重命名之后可以关闭然后重启redis，如果启动redis报错：</p>
+<blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;DENIED Redis is running protected mode because protected mode is enabled,no bind address was specified, no authentication password is requested to clients.In this mode connections are only accepted from the loopback interface.</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p> 可以参见官方文档解释：<a href="http://redis.io/topics/persistence" target="_blank" rel="noopener">http://redis.io/topics/persistence</a> </p>
+<blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;############################## APPEND ONLY MODE ################################ 默认情况下，Redis是异步的把数据导出到磁盘上。这种模式在很多应用里已经足够好，但Redis进程# 出问题或断电时可能造成一段时间的写操作丢失(这取决于配置的save指令)。## AOF是一种提供了更可靠的替代持久化模式，例如使用默认的数据写入文件策略（参见后面的配置）# 在遇到像服务器断电或单写情况下Redis自身进程出问题但操作系统仍正常运行等突发事件时，Redis# 能只丢失1秒的写操作。## AOF和RDB持久化能同时启动并且不会有问题。# 如果AOF开启，那么在启动时Redis将加载AOF文件，它更能保证数据的可靠性。## 请查看 http://redis.io/topics/persistence 来获取更多信息.appendonly no# 纯累加文件名字（默认：&quot;appendonly.aof&quot;）appendfilename &quot;appendonly.aof&quot;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p> 把配置改了<code>appendonly</code>的 yes 改为 no，重启 redis 服务即可。 </p>
+<blockquote>
+<blockquote>
+<p>注意：一般情况不用去做这些命令重命名，除非特别有必要，一般真要防御，可以设置一个高难度密码，同时更改一下端口就可以了</p>
+</blockquote>
+</blockquote>
+<p>想了解更多安全设置可以参照这篇： <a href="https://www.cnblogs.com/zhoujie/p/redis2.html" target="_blank" rel="noopener">https://www.cnblogs.com/zhoujie/p/redis2.html</a> </p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/redis/" rel="tag"># redis</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/11/21/mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/" rel="next" title="mysql主从复制">
+                <i class="fa fa-chevron-left"></i> mysql主从复制
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">慕山</p>
+              <p class="site-description motion-element" itemprop="description">好运不会眷顾傻瓜</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#下载编译安装redis"><span class="nav-number">1.</span> <span class="nav-text">下载编译安装redis</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#下载redis"><span class="nav-number">1.1.</span> <span class="nav-text">下载redis</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解压redis包"><span class="nav-number">1.2.</span> <span class="nav-text">解压redis包</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#编译安装"><span class="nav-number">1.3.</span> <span class="nav-text">编译安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#启动redis"><span class="nav-number">1.4.</span> <span class="nav-text">启动redis</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#redis配置"><span class="nav-number">2.</span> <span class="nav-text">redis配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#设置后台运行"><span class="nav-number">2.1.</span> <span class="nav-text">设置后台运行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#设置redis全局变量"><span class="nav-number">2.2.</span> <span class="nav-text">设置redis全局变量</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置redis开机自动启动"><span class="nav-number">3.</span> <span class="nav-text">设置redis开机自动启动</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#配置rc-local文件"><span class="nav-number">3.1.</span> <span class="nav-text">配置rc.local文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置到service服务"><span class="nav-number">3.2.</span> <span class="nav-text">配置到service服务</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置redis密码"><span class="nav-number">4.</span> <span class="nav-text">设置redis密码</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#配置redis密码"><span class="nav-number">4.1.</span> <span class="nav-text">配置redis密码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#登陆带密码的redis"><span class="nav-number">4.2.</span> <span class="nav-text">登陆带密码的redis</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#禁用或重命名危险命令（了解以下就可以了）"><span class="nav-number">4.3.</span> <span class="nav-text">禁用或重命名危险命令（了解以下就可以了）</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">慕山</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
