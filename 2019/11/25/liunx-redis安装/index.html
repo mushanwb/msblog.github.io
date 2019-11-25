@@ -88,7 +88,7 @@
 <meta property="og:description" content="下载编译安装redis进入redis的官网，查看和下载最新版本的redis，官网下面也会给出linux上下载和安装的命令 下载redis1wget http:&#x2F;&#x2F;download.redis.io&#x2F;releases&#x2F;redis-5.0.7.tar.gz  解压redis包1tar xzf redis-5.0.7.tar.gz  编译安装复制redis解压后的文件到&#x2F;usr&#x2F;local文件中，一般安">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https:&#x2F;&#x2F;hmwztb.top&#x2F;image&#x2F;blog&#x2F;blog-image12.png">
-<meta property="og:updated_time" content="2019-11-25T07:48:08.101Z">
+<meta property="og:updated_time" content="2019-11-25T09:23:14.002Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;hmwztb.top&#x2F;image&#x2F;blog&#x2F;blog-image12.png">
 
@@ -491,7 +491,7 @@
 
 <p><code>AUTH</code>命令跟其他 redis 命令一样，是不加密的，因此不能完全阻止攻击者窃取密码。</p>
 <p>认证层的目标是提供多一层的轻量级保护。如果防火墙或者用来保护 redis 的系统防御外部攻击失败的话，外部用户如果没有通过密码认证还是无法访问 redis 服务</p>
-<h4 id="禁用或重命名危险命令（了解以下就可以了）"><a href="#禁用或重命名危险命令（了解以下就可以了）" class="headerlink" title="禁用或重命名危险命令（了解以下就可以了）"></a><strong>禁用或重命名危险命令（了解以下就可以了）</strong></h4><p> edis crackit漏洞就利用config/save两个命令完成攻击 。 因redis无用户权限限制，建议危险的命令，使用rename配置项进行禁用或重命名，这样外部不了解重命名规则攻击者，就不能执行这类命令。涉及到的命令： </p>
+<h4 id="禁用或重命名危险命令（了解以下就可以了）"><a href="#禁用或重命名危险命令（了解以下就可以了）" class="headerlink" title="禁用或重命名危险命令（了解以下就可以了）"></a><strong>禁用或重命名危险命令（了解以下就可以了）</strong></h4><p> redis crackit漏洞就利用config/save两个命令完成攻击 。 因redis无用户权限限制，建议危险的命令，使用rename配置项进行禁用或重命名，这样外部不了解重命名规则攻击者，就不能执行这类命令。涉及到的命令： </p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FLUSHDB, FLUSHALL, KEYS, PEXPIRE, DEL, CONFIG, SHUTDOWN, BGREWRITEAOF, BGSAVE, SAVE, SPOP, SREM, RENAME, DEBUG, EVAL</span><br></pre></td></tr></table></figure>
 
 <p> 在<code>redis.conf</code>配置文件禁用<code>FLUSHDB</code>、<code>FLUSHALL</code>两个命令，或者重命名<code>CONFIG</code>、<code>SHUTDOWN</code>命令（添加一个特殊的后缀）。这样 redis 服务启动后，只能运行重命名之后的命令，不能执行原始的<code>CONFIG</code>命令 </p>
