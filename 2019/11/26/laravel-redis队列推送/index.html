@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="laravel,redis," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="环境要求：  redis laravel  5.5+   redis配置项目中使用 Composer 安装依赖1composer require &amp;quot;predis&#x2F;predis:~1.0&amp;quot;  在laravel得配置文件.env中配置redis  QUEUE_DRIVER=redis REDIS_HOST=127.0.0.1  REDIS_PASSWORD=null  REDIS">
+<meta name="keywords" content="laravel,redis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="laravel redis队列推送">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;26&#x2F;laravel-redis%E9%98%9F%E5%88%97%E6%8E%A8%E9%80%81&#x2F;index.html">
+<meta property="og:site_name" content="MuShan Blog">
+<meta property="og:description" content="环境要求：  redis laravel  5.5+   redis配置项目中使用 Composer 安装依赖1composer require &amp;quot;predis&#x2F;predis:~1.0&amp;quot;  在laravel得配置文件.env中配置redis  QUEUE_DRIVER=redis REDIS_HOST=127.0.0.1  REDIS_PASSWORD=null  REDIS">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https:&#x2F;&#x2F;image.chengxulvtu.com&#x2F;2018&#x2F;08&#x2F;QQ%E6%88%AA%E5%9B%BE20180822150704.png">
+<meta property="og:updated_time" content="2019-11-27T07:18:40.216Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;image.chengxulvtu.com&#x2F;2018&#x2F;08&#x2F;QQ%E6%88%AA%E5%9B%BE20180822150704.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/11/26/laravel-redis队列推送/"/>
+
+
+
+
+
+  <title>laravel redis队列推送 | MuShan Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">MuShan Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-github">
+          <a href="https://github.com/mushanwb" target="_blank" rel="section noopener">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            github
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/26/laravel-redis%E9%98%9F%E5%88%97%E6%8E%A8%E9%80%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="慕山">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MuShan Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">laravel redis队列推送</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-11-26T15:31:03+08:00">
+                2019-11-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/php/" itemprop="url" rel="index">
+                    <span itemprop="name">php</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>环境要求：</p>
+<ul>
+<li>redis</li>
+<li>laravel  5.5+</li>
+</ul>
+</blockquote>
+<h3 id="redis配置"><a href="#redis配置" class="headerlink" title="redis配置"></a><strong>redis配置</strong></h3><h5 id="项目中使用-Composer-安装依赖"><a href="#项目中使用-Composer-安装依赖" class="headerlink" title="项目中使用 Composer 安装依赖"></a>项目中使用 Composer 安装依赖</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">composer require &quot;predis/predis:~1.0&quot;</span><br></pre></td></tr></table></figure>
+
+<p>在laravel得配置文件<code>.env</code>中配置redis</p>
+<blockquote>
+<p>QUEUE_DRIVER=redis</p>
+<p>REDIS_HOST=127.0.0.1 </p>
+<p>REDIS_PASSWORD=null </p>
+<p>REDIS_PORT=6379</p>
+<p>参数解释： </p>
+<p>QUEUE_DRIVER：队列驱动选择，参数值为database（数据库）或者redis，后面会小提一下</p>
+<p>REDIS_HOST：redis的ip，一般都在本地</p>
+<p>REDIS_PASSWORD：redis的密码，没有设置密码就为默认的null</p>
+<p>REDIS_PORT：redis的端口号，如果没有改端口号，则默认为6379</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;数据库驱动：选择使用数据库做驱动时，将驱动参数值改为database，不用去配置redis，但是需要在数据库中添加jobs表，入队列的数据都会在jobs表里面，jobs表可以使用artisan命令去建</span><br><span class="line">&gt;php artisan queue:table			//创建jobs表</span><br><span class="line">&gt;php artisan migrate				//使用数据库迁移将jobs表导入到数据库中</span><br><span class="line">&gt;注意：数据库驱动和redis驱动在代码上没什么区别，只是在配置上有别区</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h3 id="失败任务记录（可有可无，看你自己想不想记录）"><a href="#失败任务记录（可有可无，看你自己想不想记录）" class="headerlink" title="失败任务记录（可有可无，看你自己想不想记录）"></a>失败任务记录（可有可无，看你自己想不想记录）</h3><p>有时候队列中的任务会失败。Laravel 内置了一个方便的方式来指定任务重试的最大次数。当任务超出这个重试次数后，它就会被插入到 failed_jobs 数据表里面。我们可以使用<code>queue:failed-table</code>命令来创建 failed_jobs 表的迁移文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 会新建 database/migrations/&#123;timestamp&#125;_create_failed_jobs_table.php 文件</span><br><span class="line"> php artisan queue:failed-table</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>接着使用 migrate Artisan 命令生成 failed_jobs 表：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php artisan migrate</span><br></pre></td></tr></table></figure>
+
+<h3 id="创建任务"><a href="#创建任务" class="headerlink" title="创建任务"></a><strong>创建任务</strong></h3><p>创建任务 = 搞一个生产者 = （其实就是写一个在队列中你想执行的业务逻辑）,名字随意取，但最好遵守命名规范。</p>
+<p>这个生成的文件大概分2部分：一是__construct() 构造方法 ；二是handle 队列执行方法(意思就是在队列执行的时候，就用你这里面写的代码)</p>
+<h4 id="使用以下-Artisan-命令来生成一个新的队列任务："><a href="#使用以下-Artisan-命令来生成一个新的队列任务：" class="headerlink" title="使用以下 Artisan 命令来生成一个新的队列任务："></a>使用以下 Artisan 命令来生成一个新的队列任务：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 该命令会在 app/Jobs 目录下生成一个新的类</span><br><span class="line">php artisan make:job SendReminderEmail</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>新生成的类：pp/Jobs/SendReminderEmail.php</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">namespace App\Jobs;</span><br><span class="line"></span><br><span class="line">use Illuminate\Bus\Queueable;</span><br><span class="line">use Illuminate\Queue\SerializesModels;</span><br><span class="line">use Illuminate\Queue\InteractsWithQueue;</span><br><span class="line">use Illuminate\Contracts\Queue\ShouldQueue;</span><br><span class="line">use Illuminate\Foundation\Bus\Dispatchable;</span><br><span class="line">use App\Util\L;</span><br><span class="line">use Mail;</span><br><span class="line"></span><br><span class="line">class SendReminderEmail implements ShouldQueue</span><br><span class="line">&#123;</span><br><span class="line">   use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;</span><br><span class="line"></span><br><span class="line">   protected $orderInfo;</span><br><span class="line">   protected $email;</span><br><span class="line"></span><br><span class="line">   /**</span><br><span class="line">    * Create a new job instance.</span><br><span class="line">    *</span><br><span class="line">    * @return void</span><br><span class="line">    */</span><br><span class="line">   public function __construct($orderInfo, $email)</span><br><span class="line">   &#123;</span><br><span class="line">       $this-&gt;orderInfo = $orderInfo;</span><br><span class="line">       $this-&gt;email = $email;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   /**</span><br><span class="line">    * Execute the job.</span><br><span class="line">    *</span><br><span class="line">    * @return void</span><br><span class="line">    */</span><br><span class="line">   public function handle()</span><br><span class="line">   &#123;</span><br><span class="line">   	   //出队时需要运行的逻辑</span><br><span class="line">       Mail::send(&apos;emails.new_order_mail&apos;,</span><br><span class="line">           [</span><br><span class="line">               &apos;order_number&apos; =&gt; $this-&gt;orderInfo[&apos;order_number&apos;],</span><br><span class="line">               &apos;goods_name&apos; =&gt; $this-&gt;orderInfo[&apos;goods_name&apos;],</span><br><span class="line">               &apos;goods_color&apos; =&gt; $this-&gt;orderInfo[&apos;goods_color&apos;],</span><br><span class="line">               &apos;goods_num&apos; =&gt; $this-&gt;orderInfo[&apos;goods_num&apos;]</span><br><span class="line">           ],</span><br><span class="line">           function ($message) &#123;</span><br><span class="line">               $to = $this-&gt;email;</span><br><span class="line">               $message-&gt;to($to)-&gt;subject(&apos;【xx商城新订单通知】&apos;);</span><br><span class="line">           &#125;);</span><br><span class="line">       // 返回的一个错误数组，利用此可以判断是否发送成功</span><br><span class="line">       if (count(Mail::failures()) &gt;= 1) &#123;</span><br><span class="line">           L::email(&quot;订单：&quot; . $this-&gt;orderInfo[&apos;order_number&apos;] . &quot;的 &quot; . $this-&gt;email . &quot; 邮件通知发送失败&quot;);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="定义发送邮件的类，分发任务"><a href="#定义发送邮件的类，分发任务" class="headerlink" title="定义发送邮件的类，分发任务"></a><strong>定义发送邮件的类，分发任务</strong></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">    * @param $header_id</span><br><span class="line">    * @return mixed</span><br><span class="line">    * 发送邮件 队列</span><br><span class="line">    */</span><br><span class="line">   public function sendMail(Request $request)</span><br><span class="line">   &#123;</span><br><span class="line">       try &#123;</span><br><span class="line">           // 邮件内容</span><br><span class="line">           $orderInfo = OrderDetail::select(&apos;order_number&apos;, &apos;order_lines.*&apos;)</span><br><span class="line">               -&gt;leftJoin(&apos;order_headers&apos;, &apos;order_headers.uid&apos;, &apos;=&apos;, &apos;header_id&apos;)</span><br><span class="line">               -&gt;where(&apos;header_id&apos;, $header_id)</span><br><span class="line">               -&gt;first();</span><br><span class="line">           $order[&apos;order_number&apos;] = $orderInfo-&gt;order_number;</span><br><span class="line">           $order[&apos;goods_name&apos;] = &apos;嘻嘻&apos; . $orderInfo-&gt;combo;</span><br><span class="line">           $order[&apos;goods_color&apos;] = $orderInfo-&gt;color;</span><br><span class="line">           $order[&apos;goods_num&apos;] = $orderInfo-&gt;quantity;</span><br><span class="line">           L::email(&quot;订单：&quot; . $orderInfo-&gt;order_number);</span><br><span class="line">           // 邮件地址列表</span><br><span class="line">           $emailList = [&quot;xxx@qq.com&quot;, &quot;xxx@163.com&quot;]; // 测试 邮件地址</span><br><span class="line">           // 推送任务入队列</span><br><span class="line">           foreach ($emailList as $email) &#123;</span><br><span class="line">               SendReminderEmail::dispatch($order, $email);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125; catch (\Exception $e) &#123;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">注意：推送任务入队列的时候,使用dispatch方法，具体用什么方法在laravel文档中的队列都有介绍</span><br></pre></td></tr></table></figure>
+
+<h3 id="开始测试"><a href="#开始测试" class="headerlink" title="开始测试"></a>开始测试</h3><p>开始之前，我们需要在命令行启动队列系统，队列在启动完成后会进入监听状态</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php artisan queue:listen</span><br></pre></td></tr></table></figure>
+
+<h3 id="运行队列进程"><a href="#运行队列进程" class="headerlink" title="运行队列进程"></a>运行队列进程</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php artisan queue:work</span><br></pre></td></tr></table></figure>
+
+<h3 id="Supervisor"><a href="#Supervisor" class="headerlink" title="Supervisor"></a>Supervisor</h3><p>测试完成后，邮件发送成功，表示你已经成功啦~</p>
+<p>but，如果是在生产环境，就不可能是像开发时启动一下队列发送一次，肯定是要有一定的监听和触发机制，所以Supervisor登场了。</p>
+<p>supervisord 是进程管理的服务端，常驻进程辅助干活 supervisorctl 是客户端，用来执行查看、加载等命令</p>
+<h4 id="安装Supervisor"><a href="#安装Supervisor" class="headerlink" title="安装Supervisor"></a><strong>安装Supervisor</strong></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install supervisor</span><br></pre></td></tr></table></figure>
+
+<p>或者是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum install supervisor  # centos</span><br><span class="line">sudo apt-get install supervisor  # ubuntu</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">注意：如果yum安装找不到文件的时候，可以尝试用下面的命令安装：</span><br><span class="line">yum install epel-release</span><br><span class="line">yum install supervisor</span><br></pre></td></tr></table></figure>
+
+<h4 id="配置-supervisor"><a href="#配置-supervisor" class="headerlink" title="配置 supervisor"></a><strong>配置 supervisor</strong></h4><p>安装完后，在<code>/etc/</code>目录下会出现<code>supervisord.d</code>文件夹和<code>supervisord.conf</code>配置文件</p>
+<p>如果没有，可以用命令添加配置文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo_supervisord_conf &gt; /etc/supervisord.conf</span><br><span class="line">##注意：一般没有的话可能在其他目录，在其他目录的话用这个命令也可以在生成一个</span><br></pre></td></tr></table></figure>
+
+<p>进入配置文件<code>/etc/supervisord.conf</code>，使用<code>G</code>命令到最下面，将这两行配置的注释去掉，如果没有被注释的话，就不用改（ps:前面有冒号的就被注释了）</p>
+<blockquote>
+<p>[include]<br>files = supervisord.d/*.ini</p>
+<p>ps：配置文件中的参数解释</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&gt;;supervisord.conf</span><br><span class="line">&gt;[unix_http_server]</span><br><span class="line">&gt;file=/tmp/supervisor.sock ; UNIX socket 文件，supervisorctl 会使用</span><br><span class="line">&gt;;chmod=<span class="number">0700</span> ; socket 文件的 mode，默认是 <span class="number">0700</span></span><br><span class="line">&gt;;chown=nobody:nogroup ; socket 文件的 owner，格式： uid:gid</span><br><span class="line">&gt;;[inet_http_server] ; HTTP 服务器，提供 web 管理界面</span><br><span class="line">&gt;;port=<span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">9001</span> ; Web 管理后台运行的 IP 和端口，如果开放到公网，需要注意安全性</span><br><span class="line">&gt;;username=user ; 登录管理后台的用户名</span><br><span class="line">&gt;;password=<span class="number">123</span> ; 登录管理后台的密码</span><br><span class="line">&gt;[supervisord]</span><br><span class="line">&gt;logfile=/tmp/supervisord.log ; 日志文件，默认是 $CWD/supervisord.log</span><br><span class="line">&gt;logfile_maxbytes=<span class="number">50</span>MB ; 日志文件大小，超出会 rotate，默认 <span class="number">50</span>MB</span><br><span class="line">&gt;logfile_backups=<span class="number">10</span> ; 日志文件保留备份数量默认 <span class="number">10</span></span><br><span class="line">&gt;loglevel=info ; 日志级别，默认 info，其它: debug,warn,trace</span><br><span class="line">&gt;pidfile=/tmp/supervisord.pid ; pid 文件</span><br><span class="line">&gt;nodaemon=<span class="literal">false</span> ; 是否在前台启动，默认是 <span class="literal">false</span>，即以 daemon 的方式启动</span><br><span class="line">&gt;minfds=<span class="number">1024</span> ; 可以打开的文件描述符的最小值，默认 <span class="number">1024</span></span><br><span class="line">&gt;minprocs=<span class="number">200</span> ; 可以打开的进程数的最小值，默认 <span class="number">200</span></span><br><span class="line">&gt;; the below section must remain <span class="keyword">in</span> the config file <span class="keyword">for</span> RPC</span><br><span class="line">&gt;; (supervisorctl/web <span class="class"><span class="keyword">interface</span>) <span class="title">to</span> <span class="title">work</span>, <span class="type">additional interfaces may be</span></span></span><br><span class="line">&gt;; added <span class="keyword">by</span> defining them <span class="keyword">in</span> separate rpcinterface: sections</span><br><span class="line">&gt;[rpcinterface:supervisor]</span><br><span class="line">&gt;supervisor.rpcinterface_factory = supervisor.rpcinterface:make_main_rpcinterface</span><br><span class="line">&gt;[supervisorctl]</span><br><span class="line">&gt;serverurl=unix:<span class="comment">///tmp/supervisor.sock ; 通过 UNIX socket 连接 supervisord，路径与 unix_http_server 部分的 file 一致</span></span><br><span class="line">&gt;;serverurl=http:<span class="comment">//127.0.0.1:9001 ; 通过 HTTP 的方式连接 supervisord</span></span><br><span class="line">&gt;; 包含其他的配置文件</span><br><span class="line">&gt;[include]</span><br><span class="line">&gt;files = supervisord.d<span class="comment">/*.ini ; 可以是 *.conf 或 *.ini</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<p> 可以使用浏览器查看和控制进程状态 </p>
+<blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;[inet_http_server]         ; inet (TCP) server disabled by default </span><br><span class="line">&gt;port=0.0.0.0:9001          ; (ip_address:port specifier, *:port for all iface) </span><br><span class="line">&gt;username=user              ; 用户名 (default is no username (open server)) </span><br><span class="line">&gt;password=123               ; 密码 (default is no password (open server)) </span><br></pre></td></tr></table></figure>
+</blockquote>
+<h5 id="启动supervisor"><a href="#启动supervisor" class="headerlink" title="启动supervisor"></a>启动supervisor</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">supervisord -c /etc/supervisor.conf</span><br></pre></td></tr></table></figure>
+
+<p>通过这种方式启动，服务器重启后 Supervisor 不会自动启动，不建议使用这种方式启动Supervisor。</p>
+<blockquote>
+<p>supervisorctl shutdown         ##关闭supervisor</p>
+<p>supervisorctl reload                ##重新载入配置</p>
+</blockquote>
+<p>安装 Supervisor 后，在 <code>/usr/lib/systemd/system/</code> 目录中会有一个 <code>supervisord.service</code> 文件，内容如下：</p>
+<blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt;[Unit]</span><br><span class="line">&gt;Description=Process Monitoring and Control Daemon</span><br><span class="line">&gt;After=rc-local.service nss-user-lookup.target</span><br><span class="line">&gt;[Service]</span><br><span class="line">&gt;Type=forking</span><br><span class="line">&gt;ExecStart=/usr/bin/supervisord -c /etc/supervisord.conf</span><br><span class="line">&gt;[Install]</span><br><span class="line">&gt;WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p> 如果没有，在该目录中创建一个，用下面的内容替换： </p>
+<blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&gt;[Unit]</span><br><span class="line">&gt;Description=Supervisor daemon</span><br><span class="line">&gt;[Service]</span><br><span class="line">&gt;Type=forking </span><br><span class="line">&gt;ExecStart=/usr/bin/supervisord -c /etc/supervisord.conf </span><br><span class="line">&gt;ExecStop=/usr/bin/supervisorctl shutdown </span><br><span class="line">&gt;ExecReload=/usr/bin/supervisorctl reload </span><br><span class="line">&gt;KillMode=process </span><br><span class="line">&gt;Restart=on-failure </span><br><span class="line">&gt;RestartSec=42s</span><br><span class="line">&gt;[Install]</span><br><span class="line">&gt;WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p><strong>启用开机启动</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl enable supervisord.service</span><br></pre></td></tr></table></figure>
+
+<p><strong>启动Supervisor</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl start supervisord.service</span><br></pre></td></tr></table></figure>
+
+<h4 id="应用配置"><a href="#应用配置" class="headerlink" title="应用配置"></a><strong>应用配置</strong></h4><p> Supervisor 管理应用的进程，需要对每个应用进行配置。在 <code>/etc/supervisor.d</code> 中创建 <code>laravel_point.ini</code>，每个应用对应一个配置文件即可（配置文件名可以使用项目名）。 </p>
+<p>下面是配置文件的实例：</p>
+<blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&gt;[program:laravel_point]  ;程序的名称</span><br><span class="line">&gt;command = php /home/wwwroot/laravel_point/artisan queue:work redis --sleep=3 --tries=3 --daemon ;执行的命令</span><br><span class="line">&gt;directory = /home/wwwroot/laravel_point/ ;命令执行的目录(如果上面执行的命令是全路径，则该参数可以不写)</span><br><span class="line">&gt;user = root  ;执行进程的用户</span><br><span class="line">&gt;stopsignal = INT  </span><br><span class="line">&gt;autostart = true  ;是否自动启动</span><br><span class="line">&gt;autorestart = true  ;是否自动重启</span><br><span class="line">&gt;startretries = 3     ; 启动失败自动重试次数，默认是 3</span><br><span class="line">&gt;startsecs = 1  ;自动重启间隔</span><br><span class="line">&gt;stderr_logfile = /home/wwwlogs/laravel_point.err.log  ;标准错误日志</span><br><span class="line">&gt;stdout_logfile = /home/wwwlogs/laravel_point.out.log  ;标准输出日志</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>创建好配置文件后，重启 Supervisor</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">supervisorctl reload</span><br></pre></td></tr></table></figure>
+
+<p>或热重启，不会重启其他子进程</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">supervisorctl reread</span><br><span class="line"></span><br><span class="line">supervisorctl update</span><br></pre></td></tr></table></figure>
+
+<p>为确保没有错误，可以正常启动，使用前文提到的查看Supervisor状态的命令查看。或者查看要管理的进程是否启动，本例中可以使用下面的命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ps -ef | grep laravel_point.dll</span><br><span class="line"></span><br><span class="line">或</span><br><span class="line">ps -ef | grep dotnet</span><br></pre></td></tr></table></figure>
+
+<h4 id="Supervisor-管理进程"><a href="#Supervisor-管理进程" class="headerlink" title="Supervisor 管理进程"></a><strong>Supervisor 管理进程</strong></h4><p>有两种方式可以管理进程，命令行和Web管理。</p>
+<p><strong>命令行</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">supervisorctl shutdown #关闭所有任务</span><br><span class="line"></span><br><span class="line">supervisorctl stop|start program_name</span><br><span class="line"></span><br><span class="line">supervisorctl status #查看所有任务状态</span><br></pre></td></tr></table></figure>
+
+<p><strong>Web管理</strong></p>
+<p>启用 Web 管理，首先将 <code>/etc/supervisord.conf</code> 配置文件中的 <code>inet_http_server</code> 节点取消注释。</p>
+<blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;[inet_http_server]         ; inet (TCP) server disabled by default </span><br><span class="line">&gt;port=0.0.0.0:9001          ; (ip_address:port specifier, *:port for all iface) </span><br><span class="line">&gt;username=user              ; 用户名 (default is no username (open server)) </span><br><span class="line">&gt;password=123               ; 密码 (default is no password (open server)) </span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>修改后重启 Supervisor</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">supervisorctl reload</span><br></pre></td></tr></table></figure>
+
+<p>在浏览器中打开地址，如下图所示。</p>
+<p><a href="https://image.chengxulvtu.com/2018/08/QQ截图20180822150704.png" target="_blank" rel="noopener"><img src="https://image.chengxulvtu.com/2018/08/QQ%E6%88%AA%E5%9B%BE20180822150704.png" alt="CentOS 7 配置 Supervisor-程序旅途"></a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/laravel/" rel="tag"># laravel</a>
+          
+            <a href="/tags/redis/" rel="tag"># redis</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/11/25/liunx-redis%E5%AE%89%E8%A3%85/" rel="next" title="liunx redis安装">
+                <i class="fa fa-chevron-left"></i> liunx redis安装
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">慕山</p>
+              <p class="site-description motion-element" itemprop="description">好运不会眷顾傻瓜</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#redis配置"><span class="nav-number">1.</span> <span class="nav-text">redis配置</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#项目中使用-Composer-安装依赖"><span class="nav-number">1.0.1.</span> <span class="nav-text">项目中使用 Composer 安装依赖</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#失败任务记录（可有可无，看你自己想不想记录）"><span class="nav-number">2.</span> <span class="nav-text">失败任务记录（可有可无，看你自己想不想记录）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建任务"><span class="nav-number">3.</span> <span class="nav-text">创建任务</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用以下-Artisan-命令来生成一个新的队列任务："><span class="nav-number">3.1.</span> <span class="nav-text">使用以下 Artisan 命令来生成一个新的队列任务：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#定义发送邮件的类，分发任务"><span class="nav-number">3.2.</span> <span class="nav-text">定义发送邮件的类，分发任务</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#开始测试"><span class="nav-number">4.</span> <span class="nav-text">开始测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运行队列进程"><span class="nav-number">5.</span> <span class="nav-text">运行队列进程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Supervisor"><span class="nav-number">6.</span> <span class="nav-text">Supervisor</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装Supervisor"><span class="nav-number">6.1.</span> <span class="nav-text">安装Supervisor</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置-supervisor"><span class="nav-number">6.2.</span> <span class="nav-text">配置 supervisor</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#启动supervisor"><span class="nav-number">6.2.1.</span> <span class="nav-text">启动supervisor</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#应用配置"><span class="nav-number">6.3.</span> <span class="nav-text">应用配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Supervisor-管理进程"><span class="nav-number">6.4.</span> <span class="nav-text">Supervisor 管理进程</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">慕山</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
