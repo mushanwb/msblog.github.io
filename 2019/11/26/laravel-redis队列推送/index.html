@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="laravel,redis," />
+  <meta name="keywords" content="redis,laravel," />
 
 
 
@@ -80,7 +80,7 @@
 
 
 <meta name="description" content="环境要求：  redis laravel  5.5+   redis配置项目中使用 Composer 安装依赖1composer require &amp;quot;predis&#x2F;predis:~1.0&amp;quot;  在laravel得配置文件.env中配置redis  QUEUE_DRIVER=redis REDIS_HOST=127.0.0.1  REDIS_PASSWORD=null  REDIS">
-<meta name="keywords" content="laravel,redis">
+<meta name="keywords" content="redis,laravel">
 <meta property="og:type" content="article">
 <meta property="og:title" content="laravel redis队列推送">
 <meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;26&#x2F;laravel-redis%E9%98%9F%E5%88%97%E6%8E%A8%E9%80%81&#x2F;index.html">
@@ -88,7 +88,7 @@
 <meta property="og:description" content="环境要求：  redis laravel  5.5+   redis配置项目中使用 Composer 安装依赖1composer require &amp;quot;predis&#x2F;predis:~1.0&amp;quot;  在laravel得配置文件.env中配置redis  QUEUE_DRIVER=redis REDIS_HOST=127.0.0.1  REDIS_PASSWORD=null  REDIS">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https:&#x2F;&#x2F;image.chengxulvtu.com&#x2F;2018&#x2F;08&#x2F;QQ%E6%88%AA%E5%9B%BE20180822150704.png">
-<meta property="og:updated_time" content="2019-11-27T07:18:40.216Z">
+<meta property="og:updated_time" content="2019-11-28T04:27:35.608Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;image.chengxulvtu.com&#x2F;2018&#x2F;08&#x2F;QQ%E6%88%AA%E5%9B%BE20180822150704.png">
 
@@ -436,7 +436,7 @@
 <h4 id="应用配置"><a href="#应用配置" class="headerlink" title="应用配置"></a><strong>应用配置</strong></h4><p> Supervisor 管理应用的进程，需要对每个应用进行配置。在 <code>/etc/supervisor.d</code> 中创建 <code>laravel_point.ini</code>，每个应用对应一个配置文件即可（配置文件名可以使用项目名）。 </p>
 <p>下面是配置文件的实例：</p>
 <blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&gt;[program:laravel_point]  ;程序的名称</span><br><span class="line">&gt;command = php /home/wwwroot/laravel_point/artisan queue:work redis --sleep=3 --tries=3 --daemon ;执行的命令</span><br><span class="line">&gt;directory = /home/wwwroot/laravel_point/ ;命令执行的目录(如果上面执行的命令是全路径，则该参数可以不写)</span><br><span class="line">&gt;user = root  ;执行进程的用户</span><br><span class="line">&gt;stopsignal = INT  </span><br><span class="line">&gt;autostart = true  ;是否自动启动</span><br><span class="line">&gt;autorestart = true  ;是否自动重启</span><br><span class="line">&gt;startretries = 3     ; 启动失败自动重试次数，默认是 3</span><br><span class="line">&gt;startsecs = 1  ;自动重启间隔</span><br><span class="line">&gt;stderr_logfile = /home/wwwlogs/laravel_point.err.log  ;标准错误日志</span><br><span class="line">&gt;stdout_logfile = /home/wwwlogs/laravel_point.out.log  ;标准输出日志</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&gt;[program:laravel_point]  ;程序的名称</span><br><span class="line">&gt;command = php /home/wwwroot/laravel_point/artisan queue:work redis --sleep=3 --tries=3 ;执行的命令</span><br><span class="line">&gt;directory = /home/wwwroot/laravel_point/ ;命令执行的目录(如果上面执行的命令是全路径，则该参数可以不写)</span><br><span class="line">&gt;user = root  ;执行进程的用户</span><br><span class="line">&gt;stopsignal = INT  </span><br><span class="line">&gt;autostart = true  ;是否自动启动</span><br><span class="line">&gt;autorestart = true  ;是否自动重启</span><br><span class="line">&gt;startretries = 3     ; 启动失败自动重试次数，默认是 3</span><br><span class="line">&gt;startsecs = 1  ;自动重启间隔</span><br><span class="line">&gt;stderr_logfile = /home/wwwlogs/laravel_point.err.log  ;标准错误日志</span><br><span class="line">&gt;stdout_logfile = /home/wwwlogs/laravel_point.out.log  ;标准输出日志</span><br></pre></td></tr></table></figure>
 </blockquote>
 <p>创建好配置文件后，重启 Supervisor</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">supervisorctl reload</span><br></pre></td></tr></table></figure>
@@ -478,9 +478,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/laravel/" rel="tag"># laravel</a>
-          
             <a href="/tags/redis/" rel="tag"># redis</a>
+          
+            <a href="/tags/laravel/" rel="tag"># laravel</a>
           
         </div>
       
