@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="java,windows," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="windows 上安装 java 开发环境**下载 JDKJava Development Kit（JDK）是太阳微系统针对 Java 开发人员发布的免费软件开发工具包（SDK，Software development kit）。 百度或goole搜索 oracle jdk，一般在搜索第一个出现会 Java SE 下载 网站，找到 Java SE 8u开头的版本，这个版本是用的最多的版本，相对成熟">
+<meta name="keywords" content="java,windows">
+<meta property="og:type" content="article">
+<meta property="og:title" content="windows &amp; linux 上安装 java">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;03&#x2F;28&#x2F;windows&amp;linux-%E5%AE%89%E8%A3%85-java&#x2F;index.html">
+<meta property="og:site_name" content="MuShan Blog">
+<meta property="og:description" content="windows 上安装 java 开发环境**下载 JDKJava Development Kit（JDK）是太阳微系统针对 Java 开发人员发布的免费软件开发工具包（SDK，Software development kit）。 百度或goole搜索 oracle jdk，一般在搜索第一个出现会 Java SE 下载 网站，找到 Java SE 8u开头的版本，这个版本是用的最多的版本，相对成熟">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https:&#x2F;&#x2F;hmwztb.top&#x2F;image&#x2F;blog&#x2F;blog-image13.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;hmwztb.top&#x2F;image&#x2F;blog&#x2F;blog-image14.png">
+<meta property="og:updated_time" content="2020-03-29T04:32:05.291Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;hmwztb.top&#x2F;image&#x2F;blog&#x2F;blog-image13.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/03/28/windows&linux-安装-java/"/>
+
+
+
+
+
+  <title>windows & linux 上安装 java | MuShan Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">MuShan Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-github">
+          <a href="https://github.com/mushanwb" target="_blank" rel="section noopener">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            github
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/28/windows&linux-%E5%AE%89%E8%A3%85-java/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="慕山">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MuShan Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">windows & linux 上安装 java</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-28T10:50:22+08:00">
+                2020-03-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="windows-上安装-java-开发环境"><a href="#windows-上安装-java-开发环境" class="headerlink" title="windows 上安装 java 开发环境"></a><strong>windows 上安装 java 开发环境</strong></h3><h4 id="下载-JDK"><a href="#下载-JDK" class="headerlink" title="**下载 JDK"></a>**下载 JDK</h4><p><strong>Java Development Kit</strong>（<strong>JDK</strong>）是<code>太阳微系统针</code>对 <code>Java</code> 开发人员发布的免费软件开发工具包（SDK，Software development kit）。</p>
+<p>百度或goole搜索 oracle jdk，一般在搜索第一个出现会 <a href="https://www.oracle.com/java/technologies/javase-downloads.html" target="_blank" rel="noopener">Java SE 下载</a> 网站，找到 Java SE 8u开头的版本，这个版本是用的最多的版本，相对成熟稳定。进版本后根据电脑的配置选择安装包，我的电脑是windows 64位的，所以我选择下载 <a href="https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html#license-lightbox" target="_blank" rel="noopener">jdk-8u241-windows-x64.exe</a> </p>
+<p>点击链接后可能会出现oracle需要登录，如果不想注册oracle账号的话，可以去百度或者google搜索 oracle jdk 账号，一般会有人给出的，当然直接注册oracle 账号也是很简单的。登录完后就直接下载了。</p>
+<h4 id="安装-JDK"><a href="#安装-JDK" class="headerlink" title="安装 JDK"></a><strong>安装 JDK</strong></h4><p>下载完 JDK 后，安装的步骤很简单，直接双击一直点下一步就可以了，其中建议不要更改文件目录，如果对文件操作很熟的话可以自由发挥。</p>
+<p>安装完后就开始设置环境变量，虽然开发一般都是IDEA中完成，但是避免有些时候需要用到命令行，所以还是设置一下环境变量。</p>
+<blockquote>
+<p>在windows上设置环境变量：</p>
+<p>1、右键点击我的电脑，单击属性，单击高级系统设置，选择高级，然后单击环境变量</p>
+<p><img src="https://hmwztb.top/image/blog/blog-image13.png" alt="image-20200328124458049"></p>
+<p>选择环境变量后，在环境变量中选择Path，然后单击编辑，将 JDK 的安装目录添加进去，如果在安装 JDK 的时候没有修改过文件目录，那默认的安装目录为 C:\Program Files\Java\jdk1.8.0_241</p>
+<p><strong>注意</strong>：在编辑Path中，会有一个系统给的 JDK 环境变量（如果是刚刚安装的 JDK，一般会在第一个位置），将我们自己设置的环境变量地址放到这个系统给的地址前面（必须做的），这样就会覆盖系统默认给的环境变量。还有一点就是要在默认的安装地址后面加一个 bin 目录，即：C:\Program Files\Java\jdk1.8.0_241\bin，将这个地址添加进去，一般应用程序在这个bin目录里。<strong>添加完需要重启电脑。</strong></p>
+<p><img src="https://hmwztb.top/image/blog/blog-image14.png" alt=""></p>
+<p>重启电脑后，在windows的终端（window + R，输入 cmd 确定就可以打开了）中，输入命令</p>
+<p><code>java -version</code> 回车，出现以下内容，则代表环境安装成功了。</p>
+<blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;java version &quot;1.8.0_241&quot;</span><br><span class="line">&gt;&gt;Java(TM) SE Runtime Environment (build 1.8.0_241-b07)</span><br><span class="line">&gt;&gt;Java HotSpot(TM) 64-Bit Server VM (build 25.241-b07, mixed mode)</span><br></pre></td></tr></table></figure>
+</blockquote>
+</blockquote>
+<h4 id="下载-IDEA"><a href="#下载-IDEA" class="headerlink" title="下载 IDEA"></a><strong>下载 IDEA</strong></h4><p>去 <a href="https://www.jetbrains.com/" target="_blank" rel="noopener">地球最强编辑器的官网</a> 上下载java的IDEA，也就是开发所用到的编辑器。找到图标为 <code>I J</code> 样式的点进去，点进去后不管是windows还是mac都会有两种版本可供选择，一种是 <strong>Ultimate</strong> 旗舰版和 <strong>Community</strong> 社区版，一般对初学者来说使用 <strong>Community</strong>  社区版已经足够用了，<strong>Ultimate</strong> 旗舰版是需要收费的，费用还比较高，一年大约一千人民币。</p>
+<p>直接点击下载就可以了，如果下载的右边有选项的话，就选择 <strong>windows,JBR 8 (.EXE)</strong>。下载完后直接点下一步就可以了，如果不知道选项是什么，就点下一步用默认的就行了。</p>
+<p>安装完后在windows的搜索里直接搜索 <code>Intel</code>就会出来，双击后会出现一个提示框，问需不需要导入，默认是不需要，直接点击 <code>ok</code> ，然后勾选协议，点击 <code>Continue</code> ，然后会出现一个问你要不要发送邮箱帮他们做改进的一个信息，点击 <code>Don&#39;t send</code> ，然后选择主题，有黑边两种主题，一般默认是黑色，看自己喜好，点击 <code>Next:</code> ，然后就是可以选择自己喜欢的插件，对于初学者来说，暂时可以不选，点击 <code>Next:</code> ，在继续点击 <code>Next：</code> ，到这里IDEA就算是完成了。</p>
+<h3 id="在-Linux-上安装-Java-环境"><a href="#在-Linux-上安装-Java-环境" class="headerlink" title="在 Linux 上安装 Java 环境"></a><strong>在 Linux 上安装 Java 环境</strong></h3><h4 id="下载-JDK-1"><a href="#下载-JDK-1" class="headerlink" title="下载 JDK"></a><strong>下载 JDK</strong></h4><p>一般我使用的 CentOs，ubuntu 或者其他的可自行google。</p>
+<p>依旧是去 JDK 的官网，按照下载 windows 版本的方式，这次选择 <code>Linux 64</code> 的版本，记住一点要选择 <code>.tar.gz</code> 压缩包版的，点击下载，还是需要登录 oracle 账号，登录完后就开始下载，进到下载的页面，复制下载页面上的那个链接也就是下载链接(右键点击链接，选择复制链接地址)，然后在 Linux 终端里敲命令下载：</p>
+<p><code>wget https://download.oracle.com/otn/java/jdk/8u241-b07/1f5b5a70bf22433b84d0e960903adac8/jdk-8u241-linux-x64.tar.gz?AuthParam=1585453028_4c84b37ce15ddcebdddb52314dff266d</code></p>
+<p>（这是我的下载链接地址）</p>
+<blockquote>
+<p>注意：这个下载链接要马上使用，有实效的，实效还比较短，每次下载链接都可能不一样。</p>
+</blockquote>
+<p>下载完后就会出现一个安装包，如果觉得名字不太对或者太长了，就重命名一下：</p>
+<p><code>mv jdk-8u241-linux-x64.tar.gz\?AuthParam\=1585453028_4c84b37ce15ddcebdddb52314dff266d jdk-8u241-linux-x64.tar.gz</code></p>
+<p>我这里已经将安装包重命名为 jdk-8u241-linux-x64.tar.gz</p>
+<p>开始解压缩：</p>
+<p><code>tar -zxvf jdk-8u241-linux-x64.tar.gz</code> </p>
+<p>解压完后会出现一个 <code>jdk1.8.0_241</code>开头的文件夹，这时候 纯绿色jdk 已经安装成功了。看一下jdk版本信息：</p>
+<p><code>jdk1.8.0_241/bin/java -version</code></p>
+<p>出现一下类似信息则ok了：</p>
+<blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;java version &quot;1.8.0_241&quot;</span><br><span class="line">&gt;Java(TM) SE Runtime Environment (build 1.8.0_241-b07)</span><br><span class="line">&gt;Java HotSpot(TM) 64-Bit Server VM (build 25.241-b07, mixed mode)</span><br></pre></td></tr></table></figure>
+
+<p>绿色版jdk：只需要把这个解压好的文件夹放在任何一个地方，然后使用它的全路径或者JAVA_HOME环境变量就能用了。</p>
+</blockquote>
+<p>因为这是纯绿色安装的，如果想卸载的话，直接删除文件夹就可以了。</p>
+<h5 id="概念补充：JRE-JDK-JAVA-HOME-术语解释"><a href="#概念补充：JRE-JDK-JAVA-HOME-术语解释" class="headerlink" title="概念补充：JRE JDK JAVA_HOME 术语解释"></a><strong>概念补充：JRE JDK JAVA_HOME 术语解释</strong></h5><p>JRE 的全程为 Java Runtime Environment，是 Java的运行环境`，可以运行 Java编译后的程序。</p>
+<p>JDK 的全程为 Java Development Kit，是 Java的开发和运行环境，可以简单初略的理解为 <code>JDK = JRE + Javac</code>。</p>
+<p>Javac是 Java语言的 编译器，Java代码写完后需要编译后运行，但是编译过程需要在 JDK 上完成，编译完后可以在 JRE 上运行。</p>
+<p>JAVA_HOME 简单理解就是 JDK安装的文件夹，可以将安装全路径设置为  JAVA_HOME 环境变量</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag"># java</a>
+          
+            <a href="/tags/windows/" rel="tag"># windows</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/11/26/laravel-redis%E9%98%9F%E5%88%97%E6%8E%A8%E9%80%81/" rel="next" title="laravel redis队列推送">
+                <i class="fa fa-chevron-left"></i> laravel redis队列推送
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">慕山</p>
+              <p class="site-description motion-element" itemprop="description">好运不会眷顾傻瓜</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#windows-上安装-java-开发环境"><span class="nav-number">1.</span> <span class="nav-text">windows 上安装 java 开发环境</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#下载-JDK"><span class="nav-number">1.1.</span> <span class="nav-text">**下载 JDK</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装-JDK"><span class="nav-number">1.2.</span> <span class="nav-text">安装 JDK</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#下载-IDEA"><span class="nav-number">1.3.</span> <span class="nav-text">下载 IDEA</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在-Linux-上安装-Java-环境"><span class="nav-number">2.</span> <span class="nav-text">在 Linux 上安装 Java 环境</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#下载-JDK-1"><span class="nav-number">2.1.</span> <span class="nav-text">下载 JDK</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#概念补充：JRE-JDK-JAVA-HOME-术语解释"><span class="nav-number">2.1.1.</span> <span class="nav-text">概念补充：JRE JDK JAVA_HOME 术语解释</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">慕山</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
